@@ -24,16 +24,9 @@
 "_rotation":[0.0,0.0,0.0],
 "_scale":[2000.0,1000.0,2000.0]}},
 "_skeletal_objects":{
-    "skeletal0": {"_model_data_name":"skeletal", "_position":[5.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "tank": {"_model_data_name":"skeletal", "_position":[10.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "skeletal2": {"_model_data_name":"skeletal", "_position":[15.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "tank": {"_model_data_name":"skeletal", "_position":[20.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "skeletal4": {"_model_data_name":"skeletal", "_position":[25.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "trident": {"_model_data_name":"skeletal", "_position":[30.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "skeletal6": {"_model_data_name":"skeletal", "_position":[35.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "skeletal7": {"_model_data_name":"skeletal", "_position":[40.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "skeletal8": {"_model_data_name":"skeletal", "_position":[45.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]},
-    "skeletal9": {"_model_data_name":"skeletal", "_position":[50.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[0.1,0.1,0.1]}
+    "skeletal0": {"_model_data_name":"ships/sygnus_iix", "_position":[5.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[1.0,1.0,1.0]},
+    "skeletal1": {"_model_data_name":"ships/sygnus_iix", "_position":[5.0,34.0,9.0], "_rotation":[0.0,0.0,0.0], "_scale":[2.0,2.0,2.0]},
+    "tank": {"_model_data_name":"ships/tank", "_position":[10.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[1.0,1.0,1.0]}
 },
 "_level_data":{"_spawn_point_datas":[{"Player":{"_ship_data_name":"scout",
 "_position":[0.0,0.0,0.0],
