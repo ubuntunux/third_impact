@@ -1,6 +1,6 @@
 {"material_name": "render_ship",
- "material_parameters": { "textureBase": "ships/sygnus_iix_d"
-                        , "textureMaterial": "common/flat_green"
+ "material_parameters": { "textureBase": "ships/sygnus_iix_albedo"
+                        , "textureMaterial": "common/default_m"
                         , "textureNormal": "common/default_n"
                         }
 }
