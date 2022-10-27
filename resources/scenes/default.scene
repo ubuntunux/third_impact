@@ -20,11 +20,11 @@
 "_shadow_update_distance":10.0}},
 "_effects":{},
 "_static_objects":{
-    "stage":{"_model_data_name":"stages/default_stage", "_position":[0.0,-20.0,0.0], "_rotation":[0.0,0.0,0.0], "_scale":[2000.0,1000.0,2000.0]}
+    "stage":{"_model_data_name":"stages/default_stage", "_position":[0.0,-20.0,0.0], "_rotation":[0.0,0.0,0.0], "_scale":[2000.0,1000.0,2000.0]},
+    "axis_gizmo": {"_model_data_name":"axis_gizmo", "_position":[-40.0,54.0,-0.0], "_rotation":[0.0,0.0,0.0], "_scale":[3.0,3.0,3.0]}
 },
 "_skeletal_objects":{
     "skeletal0": {"_model_data_name":"ships/sygnus_iix", "_position":[5.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[1.0,1.0,1.0]},
-    "skeletal1": {"_model_data_name":"ships/sygnus_iix", "_position":[5.0,34.0,9.0], "_rotation":[0.0,0.0,0.0], "_scale":[2.0,2.0,2.0]},
     "tank": {"_model_data_name":"ships/tank", "_position":[10.0,34.0,-9.0], "_rotation":[0.0,0.0,0.0], "_scale":[1.0,1.0,1.0]}
 },
 "_level_data":{"_spawn_point_datas":[{"Player":{"_ship_data_name":"scout",

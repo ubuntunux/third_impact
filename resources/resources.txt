@@ -1,6 +1,5 @@
 resources/models/weapons/beam_emitter.model
 resources/models/stages/default_stage.model
-resources/models/ttt.model
 resources/models/Plane00.model
 resources/models/ships/trident.model
 resources/models/ships/tank.model
@@ -69,6 +68,7 @@ resources/engine_resources/externals/textures/common/default_m.png
 resources/engine_resources/externals/textures/common/default_cube_back.jpg
 resources/engine_resources/externals/textures/common/water_caustic_10.png
 resources/engine_resources/externals/textures/common/ibl_brdf_lut.png
+resources/engine_resources/externals/textures/common/default_emissive.png
 resources/engine_resources/externals/textures/common/default_cube_bottom.jpg
 resources/engine_resources/externals/textures/common/noise.png
 resources/engine_resources/externals/textures/common/water_caustic_01.png
@@ -97,6 +97,7 @@ resources/engine_resources/externals/textures/fonts/NanumBarunGothicBold_Basic_L
 resources/engine_resources/externals/meshes/skeletal.dae
 resources/engine_resources/externals/meshes/sphere.obj
 resources/engine_resources/externals/meshes/axis_gizmo.obj
+resources/engine_resources/externals/meshes/skeletal.blend
 resources/engine_resources/externals/meshes/suzan.obj
 resources/engine_resources/externals/fonts/NanumBarunGothic.ttf
 resources/engine_resources/externals/fonts/NanumGothic.ttf
@@ -310,7 +311,10 @@ resources/engine_resources/material_instances/common/render_ssao.matinst
 resources/engine_resources/material_instances/common/render_color.matinst
 resources/engine_resources/material_instances/common/generate_min_z.matinst
 resources/engine_resources/material_instances/common/render_motion_blur.matinst
+resources/engine_resources/material_instances/color_blue.matinst
+resources/engine_resources/material_instances/color_green.matinst
 resources/engine_resources/material_instances/skeletal.matinst
+resources/engine_resources/material_instances/color_red.matinst
 resources/engine_resources/material_instances/precomputed_atmosphere/precomputed_atmosphere.matinst
 resources/engine_resources/material_instances/default.matinst
 resources/engine_resources/material_instances/fft_ocean/render_fft_ocean.matinst
@@ -354,15 +358,23 @@ resources/externals/meshes/weapons/beam_emitter.dae
 resources/externals/meshes/ttt.mtl
 resources/externals/meshes/stages/default_stage.blend
 resources/externals/meshes/stages/default_stage.obj
+resources/externals/meshes/z.dae
 resources/externals/meshes/ttt.obj
+resources/externals/meshes/y.dae
 resources/externals/meshes/ships/sygnus_iix.dae
 resources/externals/meshes/ships/tank.blend
 resources/externals/meshes/ships/trident.dae
 resources/externals/meshes/ships/trident.blend
 resources/externals/meshes/ships/sygnus_iix.blend1
+resources/externals/meshes/ships/xyz.blend
 resources/externals/meshes/ships/sygnus_iix.blend
 resources/externals/meshes/ships/tank.dae
+resources/externals/meshes/ships/sygnus_iix_d.png
+resources/externals/meshes/aaa.mtl
 resources/externals/meshes/Plane00.blend
+resources/externals/meshes/bbb.dae
+resources/externals/meshes/aaa.obj
+resources/externals/meshes/x.dae
 resources/externals/meshes/Plane00.dae
 resources/shaders/render_ship.frag
 resources/shaders/render_ship.vert
@@ -393,6 +405,5 @@ resources/material_instances/ui/render_ui_test.matinst
 resources/material_instances/ships/trident.matinst
 resources/material_instances/ships/tank.matinst
 resources/material_instances/ships/sygnus_iix.matinst
-resources/material_instances/ttt.matinst
 resources/material_instances/bullets/beam_bullet.matinst
 resources/material_instances/effects/default.matinst
