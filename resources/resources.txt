@@ -353,6 +353,7 @@ resources/externals/textures/ships/trident_d.tga
 resources/externals/textures/ships/trident_n.tga
 resources/externals/textures/ships/trident_m.tga
 resources/externals/textures/effects/fire.png
+resources/externals/meshes/weapons/beam_emitter.blend
 resources/externals/meshes/weapons/beam_emitter.dae
 resources/externals/meshes/stages/default_stage.blend
 resources/externals/meshes/stages/default_stage.obj
