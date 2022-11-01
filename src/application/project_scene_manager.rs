@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::path::{ PathBuf };
 use std::rc::Rc;
 
 use nalgebra::{Vector2, Vector3, Vector4, Matrix4};
@@ -17,17 +16,10 @@ use rust_engine_3d::renderer::light::{ DirectionalLightCreateInfo, DirectionalLi
 use rust_engine_3d::renderer::renderer_data::{RendererData, RenderObjectType};
 use rust_engine_3d::renderer::render_element::{ RenderElementData };
 use rust_engine_3d::renderer::render_object::{ RenderObjectCreateInfo, RenderObjectData };
-use rust_engine_3d::resource::resource::{
-    TEXTURE_SOURCE_DIRECTORY,
-    EXT_IMAGE_SOURCE,
-    get_resource_name_from_file_path,
-    EngineResources,
-    ProjectResourcesBase,
-};
+use rust_engine_3d::resource::resource::{EngineResources, ProjectResourcesBase};
 use rust_engine_3d::utilities::system::{self, RcRefCell, newRcRefCell, ptr_as_mut, ptr_as_ref};
 use rust_engine_3d::utilities::bounding_box::BoundingBox;
 use rust_engine_3d::vulkan_context::render_pass::PipelinePushConstantData;
-use crate::game_module::height_map_data::HeightMapData;
 use crate::game_module::level_datas::level_data::LevelData;
 use crate::resource::project_resource::ProjectResources;
 use rust_engine_3d::renderer::push_constants::PushConstantParameter;
@@ -79,7 +71,6 @@ pub struct ProjectSceneManager {
     pub _camera_object_map: CameraObjectMap,
     pub _directional_light_object_map: DirectionalLightObjectMap,
     pub _effect_id_map: EffectIDMap,
-    pub _height_map_data: HeightMapData,
     pub _static_render_object_map: RenderObjectMap,
     pub _skeletal_render_object_map: RenderObjectMap,
     pub _static_render_elements: Vec<RenderElementData>,
@@ -153,7 +144,6 @@ impl ProjectSceneManager {
             _camera_object_map: HashMap::new(),
             _directional_light_object_map: HashMap::new(),
             _effect_id_map: HashMap::default(),
-            _height_map_data: HeightMapData::default(),
             _static_render_object_map: HashMap::new(),
             _skeletal_render_object_map: HashMap::new(),
             _static_render_elements: Vec::new(),
@@ -180,16 +170,6 @@ impl ProjectSceneManager {
     }
     pub fn get_project_resources(&self) -> &ProjectResources { unsafe { &*self._project_resources } }
     pub fn get_project_resources_mut(&self) -> &mut ProjectResources { unsafe { &mut *(self._project_resources as *mut ProjectResources) } }
-    pub fn get_height_map_data(&self) -> &HeightMapData { &self._height_map_data }
-    pub fn get_height_map_collision_point(&self, start_pos: &Vector3<f32>, dir: &Vector3<f32>, limit_dist: f32, collision_point: &mut Vector3<f32>) -> bool {
-        self._height_map_data.get_collision_point(start_pos, dir, limit_dist, collision_point)
-    }
-    pub fn get_height_bilinear(&self, pos: &Vector3<f32>, lod: usize) -> f32 {
-        return self._height_map_data.get_height_bilinear(pos, lod);
-    }
-    pub fn get_height_point(&self, pos: &Vector3<f32>, lod: usize) -> f32 {
-        self._height_map_data.get_height_point(pos, lod)
-    }
     pub fn get_level_data(&self) -> &LevelData { &self._level_data }
     pub fn get_renderer_data(&self) -> &RendererData { unsafe { &*self._renderer_data } }
     pub fn get_renderer_data_mut(&self) -> &mut RendererData { unsafe { &mut *(self._renderer_data as *mut RendererData) } }
@@ -558,27 +538,6 @@ impl ProjectSceneManager {
         // skeletal objects
         for (object_name, render_object_create_info) in scene_data_create_info._skeletal_objects.iter() {
             self.add_skeletal_render_object(object_name, render_object_create_info);
-        }
-
-        // height map
-        let maybe_stage_model = self._static_render_object_map.get("stage");
-        {
-            let mut stage_model = maybe_stage_model.unwrap().borrow_mut();
-            let stage_height_map_name: String = stage_model._model_data.borrow()._model_data_name.clone() + "_heightmap";
-            let texture_directory = PathBuf::from(TEXTURE_SOURCE_DIRECTORY);
-            let mut height_map_directory: PathBuf = texture_directory.clone();
-            height_map_directory.push("stages");
-            let height_map_files = project_resources.get_engine_resources().collect_resources(height_map_directory.as_path(), &EXT_IMAGE_SOURCE);
-            for height_map_file in height_map_files.iter() {
-                let resource_name = get_resource_name_from_file_path(&texture_directory, &height_map_file);
-                if resource_name == stage_height_map_name {
-                    let (image_width, image_height, _image_layers, image_data, _image_format) = EngineResources::load_image_data(height_map_file);
-                    stage_model._transform_object.update_transform_object();
-                    stage_model.update_bound_box();
-                    self._height_map_data.initialize_height_map_data(&stage_model._bound_box, image_width as i32, image_height as i32, image_data, scene_data_create_info._sea_height);
-                    break;
-                }
-            }
         }
 
         // level data

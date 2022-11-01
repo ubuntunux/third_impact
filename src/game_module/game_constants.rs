@@ -11,7 +11,3 @@ pub const CAMERA_DISTANCE_MAX: f32 = 100.0;
 pub const CAMERA_DISTANCE_SPEED: f32 = 5.0;
 pub const CAMERA_EDGE_SCROLL_SPEED: f32 = 100.0;
 pub const CAMERA_EDGE_SCROLL_SPEED_BY_MOUSE: f32 = 0.05;
-
-pub const MOUSE_PITCH_MIN: f32 = -1.5;
-pub const MOUSE_PITCH_MAX: f32 = 1.5;
-pub const MOUSE_ROTATION_SPEED: f32 = 0.002;

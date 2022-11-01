@@ -121,16 +121,7 @@ impl GameClient {
         }
 
         match self._game_controller._game_view_mode {
-            GameViewMode::TopViewMode => self._game_controller.update_event_for_top_view_mode(
-                time_data,
-                &keyboard_input_data,
-                &mouse_move_data,
-                &mouse_input_data,
-                &mouse_delta,
-                main_camera,
-                player_actor
-            ),
-            GameViewMode::FpsViewMode => self._game_controller.update_event_for_fps_view_mode(
+            GameViewMode::SideViewMode => self._game_controller.update_event_for_side_view_mode(
                 time_data,
                 &keyboard_input_data,
                 &mouse_move_data,

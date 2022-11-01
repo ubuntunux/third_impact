@@ -338,7 +338,6 @@ resources/sounds/curious_ambience.meta
 resources/sounds/Bullet_Metal_01.meta
 resources/sounds/curious_ambience.mp3
 resources/materials/render_ship.mat
-resources/externals/textures/stages/default_stage_heightmap.png
 resources/externals/textures/ui/alert.png
 resources/externals/textures/ui/crosshair_box.png
 resources/externals/textures/ui/crosshair.png
@@ -355,6 +354,7 @@ resources/externals/textures/ships/trident_m.tga
 resources/externals/textures/effects/fire.png
 resources/externals/meshes/weapons/beam_emitter.blend
 resources/externals/meshes/weapons/beam_emitter.dae
+resources/externals/meshes/stages/default_stage.mtl
 resources/externals/meshes/stages/default_stage.blend
 resources/externals/meshes/stages/default_stage.obj
 resources/externals/meshes/ships/sygnus_iix.dae

@@ -76,7 +76,9 @@ impl ActorController {
     pub fn get_actor_data_mut(&mut self) -> &mut ActorData {
         &mut self._actor_data
     }
-    pub fn get_ship(&self) -> &ShipInstance { &self._ship }
+    pub fn get_ship(&self) -> &ShipInstance {
+        &self._ship
+    }
     pub fn get_ship_mut(&mut self) -> &mut ShipInstance {
         &mut self._ship
     }
@@ -86,23 +88,28 @@ impl ActorController {
     pub fn get_controller_mut(&mut self) -> &mut ShipController {
         &mut self._ship._controller
     }
-    pub fn get_bound_box(&self) -> &BoundingBox { self._ship.get_bound_box() }
-    pub fn get_transform(&self) -> &TransformObjectData { self._ship.get_transform() }
+    pub fn get_bound_box(&self) -> &BoundingBox {
+        self._ship.get_bound_box()
+    }
+    pub fn get_transform(&self) -> &TransformObjectData {
+        self._ship.get_transform()
+    }
     pub fn get_transform_mut(&self) -> &mut TransformObjectData {
         self._ship.get_transform_mut()
     }
-    pub fn get_velocity(&self) -> &Vector3<f32> { self.get_controller().get_velocity() }
+    pub fn get_velocity(&self) -> &Vector3<f32> {
+        self.get_controller().get_velocity()
+    }
     pub fn can_manual_controll(&self) -> bool {
         ActorControllerState::None == self._actor_controller_state
     }
 
-    pub fn manual_actor_attack(&mut self, game_client: &GameClient) {
+    pub fn actor_attack(&mut self, game_client: &GameClient) {
         let project_scene_manager = game_client.get_project_scene_manager();
         let main_camera = project_scene_manager.get_main_camera();
         let fire_start = main_camera.get_camera_position();
         let fire_dir = -main_camera.get_camera_front() as Vector3<f32>;
-        let mut target_position: Vector3<f32> = fire_start + &fire_dir * CHECK_TARGET_DISTANCE_MAX;
-        project_scene_manager.get_height_map_collision_point(fire_start, &fire_dir, CHECK_TARGET_DISTANCE_MAX, &mut target_position);
+        let target_position: Vector3<f32> = fire_start + &fire_dir * CHECK_TARGET_DISTANCE_MAX;
 
         self._ship.ship_fire(game_client, &fire_start, &fire_dir, &target_position);
     }
@@ -130,7 +137,7 @@ impl ActorController {
         self._command_rotate = false;
     }
 
-    fn roate_to_target(ship_controller: &mut ShipController, to_target_dir: &Vector3<f32>, actor_left: &Vector3<f32>, actor_front: &Vector3<f32>, delta_time: f32) -> bool {
+    fn rotate_to_target(ship_controller: &mut ShipController, to_target_dir: &Vector3<f32>, actor_left: &Vector3<f32>, actor_front: &Vector3<f32>, delta_time: f32) -> bool {
         let front_dot_target = actor_front.dot(&to_target_dir);
         let velocity_yaw = ship_controller.get_velocity_yaw().abs();
         let yaw_delta = velocity_yaw * delta_time;
@@ -202,7 +209,7 @@ impl ActorController {
             let left = math::make_normalize_xz(self.get_ship().get_transform().get_left());
 
             if self._command_rotate {
-                if ActorController::roate_to_target(ship_controller, &to_target_dir, &left, &front, delta_time) {
+                if ActorController::rotate_to_target(ship_controller, &to_target_dir, &left, &front, delta_time) {
                     self._command_rotate = false;
                 }
             }
@@ -235,7 +242,7 @@ impl ActorController {
                 if 0.0 < distance {
                     let front = math::make_normalize_xz(self.get_ship().get_transform().get_front());
                     let left = math::make_normalize_xz(self.get_ship().get_transform().get_left());
-                    if ActorController::roate_to_target(ship_controller, &to_target_dir, &left, &front, delta_time) {
+                    if ActorController::rotate_to_target(ship_controller, &to_target_dir, &left, &front, delta_time) {
                         self._command_rotate = false;
                     }
                 } else {

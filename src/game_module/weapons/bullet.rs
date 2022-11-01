@@ -97,7 +97,7 @@ impl Bullet {
     pub fn get_bullet_data(&self) -> &BulletData { unsafe { &*self._bullet_data } }
     pub fn get_transform_object(&self) -> &TransformObjectData { unsafe { &*self._transform } }
     pub fn get_transform_object_mut(&self) -> &mut TransformObjectData { unsafe { &mut *(self._transform as *mut TransformObjectData) } }
-    pub fn update_bullet(&mut self, delta_time: f32, project_scene_manager: &ProjectSceneManager) -> bool {
+    pub fn update_bullet(&mut self, delta_time: f32, _project_scene_manager: &ProjectSceneManager) -> bool {
         if self._is_alive {
             let bullet_data = unsafe { &*self._bullet_data };
 
@@ -115,14 +115,13 @@ impl Bullet {
                 }
             }
 
-            // check bullet collision
-            if self._is_alive {
-                let floating_height = project_scene_manager.get_height_bilinear(current_position, 0);
-                if current_position.y < floating_height {
-                    self._is_alive = false;
-                    self._is_collided = true;
-                }
-            }
+            // todo: check bullet collision
+            // if self._is_alive {
+            //     if current_position.y < floating_height {
+            //         self._is_alive = false;
+            //         self._is_collided = true;
+            //     }
+            // }
 
             self._elapsed_time += delta_time;
         }

@@ -109,7 +109,7 @@ impl ShipController {
     pub fn set_pitch(&mut self, pitch: f32) { self._rotation.x = pitch; }
     pub fn set_yaw(&mut self, yaw: f32) { self._rotation.y = yaw; }
     pub fn set_roll(&mut self, roll: f32) { self._rotation.z = roll; }
-    pub fn update_controller(&mut self, game_client: &GameClient, transform: &TransformObjectData, delta_time: f32) {
+    pub fn update_controller(&mut self, _game_client: &GameClient, transform: &TransformObjectData, delta_time: f32) {
         let mut goal_roll = 0.0;
 
         let controller_data = self._controller_data.borrow();
@@ -161,8 +161,8 @@ impl ShipController {
         let mut position = &self._position + &self._velocity * delta_time;
         if position != self._position || false == self._on_ground {
             self._on_ground = false;
-            let project_scene_manager = game_client.get_project_scene_manager();
-            let floating_height = project_scene_manager.get_height_bilinear(&position, 0) + self._floating_height;
+            //let project_scene_manager = game_client.get_project_scene_manager();
+            let floating_height = self._floating_height;
             if position.y < floating_height {
                 position.y = floating_height;
                 self._velocity.y = 0.0;
