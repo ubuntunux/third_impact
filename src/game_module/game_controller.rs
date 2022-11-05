@@ -2,7 +2,7 @@ use nalgebra::{Vector2, Vector3};
 use winit::event::VirtualKeyCode;
 
 use rust_engine_3d::application::application::TimeData;
-use rust_engine_3d::application::input::{KeyboardInputData, MouseMoveData, MouseInputData};
+use rust_engine_3d::application::input::{KeyboardInputData, MouseMoveData, MouseInputData, JoystickInputData, ButtonState};
 use rust_engine_3d::application::scene_manager::ProjectSceneManagerBase;
 use rust_engine_3d::renderer::camera::CameraObjectData;
 use rust_engine_3d::utilities::math;
@@ -100,6 +100,7 @@ impl GameController {
     pub fn update_event_for_side_view_mode(
         &mut self,
         _time_data: &TimeData,
+        joystick_input_data: &JoystickInputData,
         keyboard_input_data: &KeyboardInputData,
         _mouse_move_data: &MouseMoveData,
         mouse_input_data: &MouseInputData,
@@ -139,20 +140,20 @@ impl GameController {
             cancle_move = true;
         }
 
-        if hold_key_a {
+        if hold_key_a || joystick_input_data._btn_left == ButtonState::Hold || joystick_input_data._stick_left_direction.x < 0 {
             player_ship_controller.acceleration_side(1.0);
             cancle_move = true;
         }
-        else if hold_key_d {
+        else if hold_key_d || joystick_input_data._btn_right == ButtonState::Hold || 0 < joystick_input_data._stick_left_direction.x {
             player_ship_controller.acceleration_side(-1.0);
             cancle_move = true;
         }
 
-        if hold_key_q {
+        if hold_key_q || joystick_input_data._btn_down == ButtonState::Hold || joystick_input_data._btn_right_bumper == ButtonState::Hold || 0 < joystick_input_data._stick_left_direction.y {
             player_ship_controller.acceleration_vertical(-1.0);
             cancle_move = true;
         }
-        else if hold_key_e {
+        else if hold_key_e || joystick_input_data._btn_up == ButtonState::Hold || joystick_input_data._btn_left_bumper == ButtonState::Hold || joystick_input_data._stick_left_direction.y < 0{
             player_ship_controller.acceleration_vertical(1.0);
             cancle_move = true;
         }

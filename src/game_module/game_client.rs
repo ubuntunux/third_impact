@@ -100,6 +100,7 @@ impl GameClient {
         let mouse_move_data = &engine_application._mouse_move_data;
         let mouse_input_data = &engine_application._mouse_input_data;
         let keyboard_input_data = &engine_application._keyboard_input_data;
+        let joystick_input_data = &engine_application._joystick_input_data;
         let mouse_speed_ratio = engine_application._window_size.y as f32 / 1080.0;
         let mouse_delta: Vector2<f32> = Vector2::new(mouse_move_data._mouse_pos_delta.x as f32 / mouse_speed_ratio, mouse_move_data._mouse_pos_delta.y as f32 / mouse_speed_ratio);
         let scroll_delta = &mouse_move_data._scroll_delta;
@@ -123,6 +124,7 @@ impl GameClient {
         match self._game_controller._game_view_mode {
             GameViewMode::SideViewMode => self._game_controller.update_event_for_side_view_mode(
                 time_data,
+                joystick_input_data,
                 &keyboard_input_data,
                 &mouse_move_data,
                 &mouse_input_data,
