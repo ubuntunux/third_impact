@@ -70,9 +70,9 @@ impl GameController {
         if target_view_mode == self._game_view_mode { true } else { false }
     }
     pub fn change_view_mode(&mut self, view_mode: GameViewMode) {
-        let isSideViewMode = GameViewMode::SideViewMode == view_mode;
-        self.get_game_ui_manager_mut().show_selection_area(false == isSideViewMode);
-        self.get_game_ui_manager_mut().set_crosshair_tracking_mouse(isSideViewMode);
+        let is_side_view_mode = GameViewMode::SideViewMode == view_mode;
+        self.get_game_ui_manager_mut().show_selection_area(false == is_side_view_mode);
+        self.get_game_ui_manager_mut().set_crosshair_tracking_mouse(is_side_view_mode);
         self._game_view_mode = view_mode;
     }
     pub fn toggle_view_mode(&mut self) {
