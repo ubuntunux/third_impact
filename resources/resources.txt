@@ -376,6 +376,7 @@ resources/game_datas/weapons/default.data
 resources/game_datas/ship_controllers/light_tank_controller.data
 resources/game_datas/ship_controllers/light_ship_controller.data
 resources/game_datas/ship_controllers/default.data
+resources/game_datas/ships/sygnus_iix.data
 resources/game_datas/ships/scout.data
 resources/game_datas/ships/default.data
 resources/game_datas/ships/tank.data

@@ -114,7 +114,7 @@ impl ShipController {
 
         let controller_data = self._controller_data.borrow();
         let boost_acceleration = if self._boost { controller_data._boost_acceleration } else { 1.0 };
-        let dir_forward = make_normalize_xz(transform.get_front());
+        let dir_forward = -make_normalize_xz(transform.get_front());
         let dir_side = make_normalize_xz(transform.get_left());
 
         if 0.0 != self._acceleration.x || 0.0 != self._acceleration.z {

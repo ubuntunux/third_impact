@@ -12,7 +12,8 @@ use crate::game_module::actors::actor::ActorController;
 use crate::game_module::game_constants::{
     CAMERA_DISTANCE_MIN,
     CAMERA_DISTANCE_MAX,
-    CAMERA_DISTANCE_SPEED
+    CAMERA_DISTANCE_SPEED,
+    CAMERA_VERTICAL_OFFSET
 };
 use crate::game_module::game_client::GameClient;
 use crate::game_module::game_ui::GameUIManager;
@@ -113,53 +114,32 @@ impl GameController {
         let hold_key_d = keyboard_input_data.get_key_hold(VirtualKeyCode::D);
         let hold_key_w = keyboard_input_data.get_key_hold(VirtualKeyCode::W);
         let hold_key_s = keyboard_input_data.get_key_hold(VirtualKeyCode::S);
-        let hold_key_q = keyboard_input_data.get_key_hold(VirtualKeyCode::Q);
-        let hold_key_e = keyboard_input_data.get_key_hold(VirtualKeyCode::E);
         let modifier_keys_shift = keyboard_input_data.get_key_hold(VirtualKeyCode::LShift);
 
-        // fire
-        if btn_left {
-            player_actor.actor_attack(self.get_game_client());
+        log::info!("{:?}", joystick_input_data._btn_b);
+
+        if btn_left || ButtonState::Pressed == joystick_input_data._btn_a {
+            player_actor.set_command_actor_fire();
         }
 
-        let _can_controll = player_actor.can_manual_controll();
-        let player_ship_controller = player_actor.get_ship_mut().get_controller_mut();
-
-        // player move
         if modifier_keys_shift {
-            player_ship_controller.boost_on();
-        }
-
-        let mut cancle_move = false;
-        if hold_key_w {
-            player_ship_controller.acceleration_forward(1.0);
-            cancle_move = true;
-        }
-        else if hold_key_s {
-            player_ship_controller.acceleration_forward(-1.0);
-            cancle_move = true;
+            player_actor.get_ship_mut().get_controller_mut().boost_on();
         }
 
         if hold_key_a || joystick_input_data._btn_left == ButtonState::Hold || joystick_input_data._stick_left_direction.x < 0 {
-            player_ship_controller.acceleration_side(1.0);
-            cancle_move = true;
+            player_actor.get_ship_mut().get_controller_mut().set_yaw(-std::f32::consts::PI * 0.5);
+            player_actor.set_command_actor_walk();
         }
         else if hold_key_d || joystick_input_data._btn_right == ButtonState::Hold || 0 < joystick_input_data._stick_left_direction.x {
-            player_ship_controller.acceleration_side(-1.0);
-            cancle_move = true;
+            player_actor.get_ship_mut().get_controller_mut().set_yaw(std::f32::consts::PI * 0.5);
+            player_actor.set_command_actor_walk();
         }
 
-        if hold_key_q || joystick_input_data._btn_down == ButtonState::Hold || joystick_input_data._btn_right_bumper == ButtonState::Hold || 0 < joystick_input_data._stick_left_direction.y {
-            player_ship_controller.acceleration_vertical(-1.0);
-            cancle_move = true;
+        if hold_key_w || joystick_input_data._btn_up == ButtonState::Hold || joystick_input_data._btn_left_bumper == ButtonState::Hold || joystick_input_data._stick_left_direction.y < 0 {
+            player_actor.get_ship_mut().get_controller_mut().acceleration_vertical(1.0);
         }
-        else if hold_key_e || joystick_input_data._btn_up == ButtonState::Hold || joystick_input_data._btn_left_bumper == ButtonState::Hold || joystick_input_data._stick_left_direction.y < 0{
-            player_ship_controller.acceleration_vertical(1.0);
-            cancle_move = true;
-        }
-
-        if cancle_move {
-            player_actor.clear_command_of_actor();
+        else if hold_key_s || joystick_input_data._btn_down == ButtonState::Hold || joystick_input_data._btn_right_bumper == ButtonState::Hold || 0 < joystick_input_data._stick_left_direction.y {
+            player_actor.get_ship_mut().get_controller_mut().acceleration_vertical(-1.0);
         }
     }
 
@@ -168,39 +148,17 @@ impl GameController {
             self._camera_distance = math::lerp(self._camera_distance, self._camera_goal_distance, 1.0f32.min(delta_time * CAMERA_DISTANCE_SPEED));
         }
 
-        //let project_scene_manager = self.get_game_client().get_project_scene_manager();
         let player_actor = self.get_game_client().get_actor_manager().get_player_actor();
         let main_camera = self.get_main_camera_mut();
         let player_transform = player_actor.get_transform();
 
         if GameViewMode::SideViewMode == self._game_view_mode {
-            let can_controll = player_actor.can_manual_controll();
-
-            // camera yaw
-            if can_controll {
-                let yaw = player_transform.get_yaw() + std::f32::consts::PI;
-                main_camera._transform_object.set_yaw(yaw);
-            }
-            main_camera._transform_object.update_transform_object();
-
-            // camera offset
-            let mut cockpit_offset = main_camera._transform_object.get_front().clone();
-            {
-                cockpit_offset.y = 0.0;
-                cockpit_offset.normalize_mut();
-                if main_camera._transform_object.get_up().y < 0.0 {
-                    cockpit_offset = -cockpit_offset;
-                }
-
-                let bound_box = &player_actor.get_bound_box();
-                const BOUND_BOX_MIN: f32 = 2.0;
-                cockpit_offset = cockpit_offset * -BOUND_BOX_MIN.max(bound_box._size.z * 0.5);
-                cockpit_offset.y = BOUND_BOX_MIN.max(bound_box._size.y * 0.5);
-            }
-
-            // camera postion
-            let camera_pos = player_transform.get_position() + main_camera._transform_object.get_front() * self._camera_distance + cockpit_offset;
+            main_camera._transform_object.set_yaw(std::f32::consts::PI);
+            let mut camera_pos = player_transform.get_position().clone_owned();
+            camera_pos.y += CAMERA_VERTICAL_OFFSET;
+            camera_pos.z -= self._camera_distance;
             main_camera._transform_object.set_position(&camera_pos);
+            // main_camera._transform_object.update_transform_object();
         } else {
             assert!(false, "Not implemented.");
         }

@@ -103,7 +103,7 @@ impl Bullet {
 
             // move bullet
             let transform = unsafe { &mut *(self._transform as *mut TransformObjectData) };
-            let velocity = (&self._initial_velocity + transform.get_front() * bullet_data._bullet_speed) * delta_time;
+            let velocity = (&self._initial_velocity - transform.get_front() * bullet_data._bullet_speed) * delta_time;
             transform.move_position(&velocity);
 
             let current_position = transform.get_position();

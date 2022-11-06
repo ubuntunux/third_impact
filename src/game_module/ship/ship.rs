@@ -1,4 +1,3 @@
-use nalgebra::Vector3;
 use serde::{ Serialize, Deserialize };
 
 use rust_engine_3d::renderer::render_object::{RenderObjectData, RenderObjectCreateInfo};
@@ -170,10 +169,10 @@ impl ShipInstance {
     pub fn get_max_shield_point(&self) -> f32 {
         self.get_ship_data()._max_shields
     }
-    pub fn ship_fire(&mut self, game_client: &GameClient, fire_start: &Vector3<f32>, fire_dir: &Vector3<f32>, target_position: &Vector3<f32>) {
+    pub fn ship_fire(&mut self, game_client: &GameClient) {
         for weapon in self._current_weapons.iter() {
             let weapon: &mut dyn WeaponTrait = unsafe { &mut *(*weapon as *mut dyn WeaponTrait) };
-            weapon.weapon_fire(game_client, fire_start, fire_dir, target_position);
+            weapon.weapon_fire(game_client);
         }
     }
     pub fn update_ship(&mut self, game_client: &GameClient, delta_time: f32) {
