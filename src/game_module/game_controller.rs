@@ -116,8 +116,6 @@ impl GameController {
         let hold_key_s = keyboard_input_data.get_key_hold(VirtualKeyCode::S);
         let modifier_keys_shift = keyboard_input_data.get_key_hold(VirtualKeyCode::LShift);
 
-        log::info!("{:?}", joystick_input_data._btn_b);
-
         if btn_left || ButtonState::Pressed == joystick_input_data._btn_a {
             player_actor.set_command_actor_fire();
         }

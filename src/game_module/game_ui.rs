@@ -1,7 +1,7 @@
 use nalgebra::{ Vector2 };
 
 use rust_engine_3d::application::scene_manager::ProjectSceneManagerBase;
-use rust_engine_3d::renderer::ui::{ProjectUIManagerBase, Widget, WidgetDefault};
+use rust_engine_3d::renderer::ui::{Widget, WidgetDefault};
 use rust_engine_3d::utilities::system::{ptr_as_ref, ptr_as_mut};
 use crate::game_module::game_client::GameClient;
 use crate::game_module::ui_widgets::hud::{CrossHair, TargetHud, PlayerHud, SelectionArea};
@@ -37,14 +37,14 @@ impl GameUIManager {
         self._project_ui_manager = game_client.get_project_ui_manager();
 
         let project_resources = game_client.get_project_resources();
-        let root_widget = game_client.get_project_ui_manager().get_root_widget_mut();
+        let game_ui_layout_mut = ptr_as_mut(game_client.get_project_ui_manager().game_ui_layout());
         let window_size = &game_client.get_project_application().get_engine_application()._window_size;
         let window_center = Vector2::<f32>::new(window_size.x as f32 * 0.5, window_size.y as f32 * 0.5,);
 
-        self._crosshair = Some(CrossHair::create_crosshair(project_resources, root_widget, &window_center));
-        self._target_hud = Some(TargetHud::create_target_hud(root_widget, &window_center));
-        self._player_hud = Some(PlayerHud::create_player_hud(root_widget, &Vector2::new(window_size.x as f32 - 200.0, window_center.y as f32)));
-        self._selection_area = Some(SelectionArea::create_selection_area(root_widget, window_size));
+        self._crosshair = Some(CrossHair::create_crosshair(project_resources, game_ui_layout_mut, &window_center));
+        self._target_hud = Some(TargetHud::create_target_hud(game_ui_layout_mut, &window_center));
+        self._player_hud = Some(PlayerHud::create_player_hud(game_ui_layout_mut, &Vector2::new(window_size.x as f32 - 200.0, window_center.y as f32)));
+        self._selection_area = Some(SelectionArea::create_selection_area(game_ui_layout_mut, window_size));
     }
 
     pub fn destroy_game_ui_manager(&mut self) {
@@ -75,7 +75,7 @@ impl GameUIManager {
 
     pub fn update_game_ui(&mut self, _delta_time: f32) {
         let game_client = ptr_as_ref(self._game_client);
-        let main_camera = game_client.get_project_scene_manager().get_main_camera();
+        let _main_camera = game_client.get_project_scene_manager().get_main_camera();
         let window_size = &game_client.get_project_application().get_engine_application()._window_size;
 
         // Cross Hair
@@ -94,36 +94,6 @@ impl GameUIManager {
             }
             let ui_component = crosshair_widget.get_ui_component_mut();
             ui_component.set_center(crosshair_pos_x as f32, crosshair_pos_y as f32);
-        }
-
-        // Player Hud
-        let actor_manager = game_client.get_actor_manager();
-        let player_actor = actor_manager.get_player_actor();
-        let player_ship = player_actor.get_ship();
-        let player_hud = self._player_hud.as_mut().unwrap();
-        player_hud._hull_point_widget.update_hull_point_widget(player_ship.get_hull_point() / 2.0, player_ship.get_max_hull_point());
-        player_hud._shield_point_widget.update_shield_point_widget(player_ship.get_shield_point() / 2.0, player_ship.get_max_shield_point());
-
-        // Target Hud
-        let target_hud = self._target_hud.as_mut().unwrap();
-        let player_actor_pos = player_actor.get_transform().get_position();
-        for (_id, actor) in actor_manager._actors.iter() {
-            if false == actor.is_player_actor() {
-                let actor_pos = actor.get_transform().get_position();
-                let distance = (actor_pos - player_actor_pos).norm();
-                let ship = actor.get_ship();
-                let clamp: bool = true;
-                let screen_pos: Vector2<f32> = main_camera.convert_world_to_screen(actor_pos, clamp);
-                let target_widget = ptr_as_mut(target_hud._widget).get_ui_component_mut();
-                target_widget.set_center(screen_pos.x, screen_pos.y);
-
-                let target_distance = ptr_as_mut(target_hud._distance).get_ui_component_mut();
-                target_distance.set_text(&format!("{}m", distance as i32));
-
-                target_hud._hull_point_widget.update_hull_point_widget(ship.get_hull_point() / 2.0, ship.get_max_hull_point());
-                target_hud._shield_point_widget.update_shield_point_widget(ship.get_shield_point() / 2.0, ship.get_max_shield_point());
-                break;
-            }
         }
     }
 }
